@@ -26,6 +26,22 @@ class Tree
     root.right_child = build_tree(array, mid + 1, ending)
     root
   end
+
+  def insert(root, key)
+    return Node.new(key) if root == nil
+    
+    if root.data == key
+      root
+    elsif root.data < key
+      root.right_child = insert(root.right_child, key)
+    else
+      root.left_child = insert(root.left_child, key)
+    end
+    root
+  end
 end
 
-Tree.new([4, 1, 0, 2, 3, 2, 3, 4, 8, 7])
+tree = Tree.new([4, 1, 0, 2, 3, 2, 3, 4, 8, 7])
+tree.insert(tree.root, 9)
+tree.insert(tree.root, -1)
+p tree.root.left_child
