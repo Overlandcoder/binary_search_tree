@@ -29,16 +29,14 @@ class Tree
   end
 
   def insert(node = root, value)
-    return Node.new(value) if root == nil
+    return Node.new(value) if node == nil
     
-    if root.data == value
-      root
-    elsif root.data < value
-      root.right = insert(root.right, value)
-    else
-      root.left = insert(root.left, value)
+    if value < node.data
+      node.left = insert(node.left, value)
+    elsif value > node.data
+      node.right = insert(node.right, value)
     end
-    root
+    node
   end
 
   def delete(node = root, value)
@@ -70,8 +68,7 @@ end
 
 tree = Tree.new([4, 1, 0, 2, 3, 2, 3, 4, 8, 7])
 p [4, 1, 0, 2, 3, 2, 3, 4, 8, 7].sort!.uniq!
-#tree.insert(-1)
-p tree.root.right
-tree.delete(7)
-p ""
-p tree.root.right
+p tree.root.left
+tree.insert(-1)
+tree.insert(-1)
+p tree.root.left
