@@ -28,24 +28,24 @@ class Tree
     root
   end
 
-  def insert(node = root, value)
-    return Node.new(value) if node == nil
-    
+  def insert(value, node = root)
+    return Node.new(value) if node.nil?
+
     if value < node.data
-      node.left = insert(node.left, value)
+      node.left = insert(value, node.left)
     elsif value > node.data
-      node.right = insert(node.right, value)
+      node.right = insert(value, node.right)
     end
     node
   end
 
-  def delete(node = root, value)
+  def delete(value, node = root)
     return node if node.nil?
 
     if value < node.data
-      node.left = delete(node.left, value)
+      node.left = delete(value, node.left)
     elsif value > node.data
-      node.right = delete(node.right, value)
+      node.right = delete(value, node.right)
     else
       return node.right if node.left.nil?
       return node.left if node.right.nil?
@@ -59,21 +59,33 @@ class Tree
 
   def inorder_successor(node)
     node = node.right
-    until node.left.nil?
-      node = node.left
-    end
+    node = node.left until node.left.nil?
     node
   end
 
-  def find(node = root, value)
+  def find(value, node = root)
     return nil if node.nil?
     return node if node.data == value
 
     if value < node.data
-      find(node.left, value)
+      find(value, node.left)
     elsif value > node.data
-      find(node.right, value)
+      find(value, node.right)
     end
+  end
+
+  def level_order
+    return if root.nil?
+
+    queue = [@root]
+    result = []
+    until queue.empty?
+      node = queue.shift
+      block_given? ? yield(node) : result << node.data
+      queue << node.left unless node.left.nil?
+      queue << node.right unless node.right.nil?
+    end
+    result unless block_given?
   end
 end
 
@@ -83,5 +95,6 @@ p tree.root.left
 tree.insert(-1)
 tree.insert(-1)
 p tree.root.left
-puts ""
+puts ''
 p tree.find(7)
+p tree.level_order
