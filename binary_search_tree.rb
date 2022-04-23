@@ -42,12 +42,30 @@ class Tree
   end
 
   def delete(node, value)
-    if node.left.data == value || node.right.data == value
-      return node.left = nil if node.left.left.nil? && node.right.right.nil?
-      return node.right = nil if node.left.left.nil? && node.right.right.nil?
-      
-      if node.left.left.nil? && !node.right.right.nil?
-        
+    if node.left.data == value
+      return node.left = nil if no_children?(node.left)
+
+      if one_child?(node.left)
+        return node.left = node.left.left if !node.left.nil?
+        return node.right = node.left.right if !node.right.nil?
+      end
+
+      if two_children?(node.left)
+
+      end
+    end
+
+    if node.right.data == value
+      return node.right = nil if no_children?(node.right)
+
+      if one_child?(node.right)
+        return node.right = node.right.left if !node.left.nil?
+        return node.right = node.right.right if !node.right.nil?
+      end
+
+      if two_children?(node.right)
+          
+      end
     end
 
     if node.data < value
@@ -56,11 +74,25 @@ class Tree
       delete(node.left, value)
     end
   end
+
+  def no_children?(node)
+    node.left.nil? && node.right.nil?
+  end
+
+  def one_child?(node)
+    node.left.nil? && !node.right.nil? || !node.left.nil? && node.right.nil?
+  end
+
+  def two_children?(node)
+    !node.left.nil? && !node.right.nil?
+  end
 end
 
 tree = Tree.new([4, 1, 0, 2, 3, 2, 3, 4, 8, 7])
+p [4, 1, 0, 2, 3, 2, 3, 4, 8, 7].sort!.uniq!
 tree.insert(tree.root, 9)
 tree.insert(tree.root, -1)
 p tree.root.left
-tree.delete(tree.root, -1)
+tree.delete(tree.root, 0)
+p ""
 p tree.root.left
