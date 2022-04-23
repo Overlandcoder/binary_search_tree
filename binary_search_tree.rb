@@ -87,6 +87,33 @@ class Tree
     end
     result unless block_given?
   end
+
+  def inorder
+
+  end
+
+  def height(value)
+    node = find(value)
+    [left_height(node), right_height(node)].max
+  end
+
+  def left_height(node)
+    height = 0
+    until node.left.nil?
+      node = node.left
+      height += 1
+    end
+    height
+  end
+
+  def right_height(node)
+    height = 0
+    until node.right.nil?
+      node = node.right
+      height += 1
+    end
+    height
+  end
 end
 
 tree = Tree.new([4, 1, 0, 2, 3, 2, 3, 4, 8, 7])
@@ -94,7 +121,9 @@ p [4, 1, 0, 2, 3, 2, 3, 4, 8, 7].sort!.uniq!
 p tree.root.left
 tree.insert(-1)
 tree.insert(-1)
+tree.insert(9)
 p tree.root.left
 puts ''
-p tree.find(7)
+p tree.root.right
 p tree.level_order
+p tree.height(3)
