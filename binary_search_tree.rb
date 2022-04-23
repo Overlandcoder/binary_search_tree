@@ -64,6 +64,17 @@ class Tree
     end
     node
   end
+
+  def find(node = root, value)
+    return nil if node.nil?
+    return node if node.data == value
+
+    if value < node.data
+      find(node.left, value)
+    elsif value > node.data
+      find(node.right, value)
+    end
+  end
 end
 
 tree = Tree.new([4, 1, 0, 2, 3, 2, 3, 4, 8, 7])
@@ -72,3 +83,5 @@ p tree.root.left
 tree.insert(-1)
 tree.insert(-1)
 p tree.root.left
+puts ""
+p tree.find(7)
