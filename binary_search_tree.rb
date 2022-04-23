@@ -28,7 +28,7 @@ class Tree
     root
   end
 
-  def insert(root, value)
+  def insert(node = root, value)
     return Node.new(value) if root == nil
     
     if root.data == value
@@ -41,54 +41,22 @@ class Tree
     root
   end
 
-  def delete(node, value)
-    if node.left.data == value
-      return node.left = nil if no_children?(node.left)
+  def delete(node = root, value)
+    return node if node.nil?
 
-      if one_child?(node.left)
-        return node.left = node.left.left if !node.left.nil?
-        return node.right = node.left.right if !node.right.nil?
-      end
-
-      if two_children?(node.left)
-        temp = inorder_successor(node.left)
-        temp.left = node.left.left
-        return node.left = temp
-      end
-    end
-
-    if node.right.data == value
-      return node.right = nil if no_children?(node.right)
-
-      if one_child?(node.right)
-        return node.right = node.right.left if !node.left.nil?
-        return node.right = node.right.right if !node.right.nil?
-      end
-
-      if two_children?(node.right)
-        temp = inorder_successor(node.right)
-        temp.left = node.right.left
-        return node.right = temp
-      end
-    end
-
-    if node.data < value
-      delete(node.right, value)
+    if value < node.data
+      node.left = delete(node.left, value)
+    elsif value > node.data
+      node.right = delete(node.right, value)
     else
-      delete(node.left, value)
+      return node.right if node.left.nil?
+      return node.left if node.right.nil?
+
+      temp = inorder_successor(node)
+      temp.left = node.left
+      return node = temp
     end
-  end
-
-  def no_children?(node)
-    node.left.nil? && node.right.nil?
-  end
-
-  def one_child?(node)
-    node.left.nil? && !node.right.nil? || !node.left.nil? && node.right.nil?
-  end
-
-  def two_children?(node)
-    !node.left.nil? && !node.right.nil?
+    node
   end
 
   def inorder_successor(node)
@@ -102,8 +70,8 @@ end
 
 tree = Tree.new([4, 1, 0, 2, 3, 2, 3, 4, 8, 7])
 p [4, 1, 0, 2, 3, 2, 3, 4, 8, 7].sort!.uniq!
-tree.insert(tree.root, -1)
-p tree.root.left
-tree.delete(tree.root, 1)
+#tree.insert(-1)
+p tree.root.right
+tree.delete(7)
 p ""
-p tree.root.left
+p tree.root.right
