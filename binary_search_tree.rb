@@ -51,7 +51,9 @@ class Tree
       end
 
       if two_children?(node.left)
-
+        temp = inorder_successor(node.left)
+        temp.left = node.left.left
+        return node.left = temp
       end
     end
 
@@ -64,7 +66,9 @@ class Tree
       end
 
       if two_children?(node.right)
-          
+        temp = inorder_successor(node.right)
+        temp.left = node.right.left
+        return node.right = temp
       end
     end
 
@@ -86,13 +90,20 @@ class Tree
   def two_children?(node)
     !node.left.nil? && !node.right.nil?
   end
+
+  def inorder_successor(node)
+    node = node.right
+    until node.left.nil?
+      node = node.left
+    end
+    node
+  end
 end
 
 tree = Tree.new([4, 1, 0, 2, 3, 2, 3, 4, 8, 7])
 p [4, 1, 0, 2, 3, 2, 3, 4, 8, 7].sort!.uniq!
-tree.insert(tree.root, 9)
 tree.insert(tree.root, -1)
 p tree.root.left
-tree.delete(tree.root, 0)
+tree.delete(tree.root, 1)
 p ""
 p tree.root.left
