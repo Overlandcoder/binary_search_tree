@@ -92,27 +92,12 @@ class Tree
 
   end
 
-  def height(value)
-    node = find(value)
-    [left_height(node), right_height(node)].max
-  end
+  def height(node, height = 0)
+    return height - 1 if node.nil?
 
-  def left_height(node)
-    height = 0
-    until node.left.nil?
-      node = node.left
-      height += 1
-    end
-    height
-  end
+    height += 1
 
-  def right_height(node)
-    height = 0
-    until node.right.nil?
-      node = node.right
-      height += 1
-    end
-    height
+    [height(node.left, height), height(node.right, height)].max
   end
 end
 
@@ -126,4 +111,4 @@ p tree.root.left
 puts ''
 p tree.root.right
 p tree.level_order
-p tree.height(3)
+p tree.height(tree.find(1))
