@@ -99,6 +99,18 @@ class Tree
 
     [height(node.left, height), height(node.right, height)].max
   end
+
+  def depth(node, root, depth = 0)
+    return depth if root == node
+
+    depth += 1
+
+    if node.data < root.data
+      depth(node, root.left, depth)
+    elsif node.data > root.data
+      depth(node, root.right, depth)
+    end
+  end
 end
 
 tree = Tree.new([4, 1, 0, 2, 3, 2, 3, 4, 8, 7])
@@ -112,3 +124,4 @@ puts ''
 p tree.root.right
 p tree.level_order
 p tree.height(tree.find(1))
+p tree.depth(tree.find(4), tree.root)
