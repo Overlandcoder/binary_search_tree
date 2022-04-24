@@ -88,8 +88,12 @@ class Tree
     result unless block_given?
   end
 
-  def inorder
-
+  def inorder(node = root, result = [])
+    return if node.nil?
+    inorder(node.left, result)
+    block_given? ? yield(node) : result << node.data
+    inorder(node.right, result)
+    result
   end
 
   def height(node, height = 0)
@@ -111,6 +115,12 @@ class Tree
       depth(node, root.right, depth)
     end
   end
+
+  def pretty_print(node = @root, prefix = '', is_left = true)
+    pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
+    pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
+  end
 end
 
 tree = Tree.new([4, 1, 0, 2, 3, 2, 3, 4, 8, 7])
@@ -125,3 +135,5 @@ p tree.root.right
 p tree.level_order
 p tree.height(tree.find(1))
 p tree.depth(tree.find(4), tree.root)
+tree.pretty_print
+p tree.inorder
