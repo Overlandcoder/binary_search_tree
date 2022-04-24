@@ -96,6 +96,14 @@ class Tree
     result
   end
 
+  def preorder(node = root, result = [])
+    return if node.nil?
+    block_given? ? yield(node) : result << node.data
+    preorder(node.left, result)
+    preorder(node.right, result)
+    result
+  end
+
   def height(node, height = 0)
     return height - 1 if node.nil?
 
@@ -137,3 +145,4 @@ p tree.height(tree.find(1))
 p tree.depth(tree.find(4), tree.root)
 tree.pretty_print
 p tree.inorder
+p tree.preorder
