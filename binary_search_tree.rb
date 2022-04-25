@@ -142,6 +142,10 @@ class Tree
     heights.all? { |num| num <= 1 }
   end
 
+  def rebalance
+    @root = build_tree(inorder)
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -151,19 +155,21 @@ end
 
 tree = Tree.new([4, 1, 0, 2, 3, 2, 3, 4, 8, 7])
 p [4, 1, 0, 2, 3, 2, 3, 4, 8, 7].sort!.uniq!
-p tree.root.left
-tree.insert(-1)
 tree.insert(-1)
 tree.insert(9)
-p tree.root.left
-puts ''
-p tree.root.right
-p tree.level_order
-p tree.height(tree.find(1))
-p tree.depth(tree.find(4), tree.root)
 tree.pretty_print
-p tree.inorder
-p tree.preorder
-p tree.postorder
+p tree.balanced?
+tree.delete(2)
+tree.pretty_print
+p tree.balanced?
+tree.rebalance
+tree.pretty_print
+p tree.balanced?
+tree.insert(10)
+tree.insert(11)
+tree.insert(12)
+tree.pretty_print
+p tree.balanced?
+tree.rebalance
 tree.pretty_print
 p tree.balanced?
