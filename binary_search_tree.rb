@@ -132,6 +132,16 @@ class Tree
     end
   end
 
+  def balanced?(node = root, heights = [])
+    return nil if node.nil?
+    return if node.left.nil? && node.right.nil?
+
+    heights << (height(node.left) - height(node.right)).abs
+    balanced?(node.left, heights)
+    balanced?(node.right, heights)
+    heights.all? { |num| num <= 1 }
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -155,3 +165,5 @@ tree.pretty_print
 p tree.inorder
 p tree.preorder
 p tree.postorder
+tree.pretty_print
+p tree.balanced?
