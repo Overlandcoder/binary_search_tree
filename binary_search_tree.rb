@@ -153,23 +153,19 @@ class Tree
   end
 end
 
-tree = Tree.new([4, 1, 0, 2, 3, 2, 3, 4, 8, 7])
-p [4, 1, 0, 2, 3, 2, 3, 4, 8, 7].sort!.uniq!
-tree.insert(-1)
-tree.insert(9)
-tree.pretty_print
-p tree.balanced?
-tree.delete(2)
-tree.pretty_print
-p tree.balanced?
+tree = Tree.new(Array.new(15) { rand(1..100) })
+puts tree.balanced?
+p tree.level_order
+p tree.inorder
+p tree.preorder
+p tree.postorder
+tree.insert(101)
+tree.insert(102)
+tree.insert(103)
+puts tree.balanced?
 tree.rebalance
-tree.pretty_print
-p tree.balanced?
-tree.insert(10)
-tree.insert(11)
-tree.insert(12)
-tree.pretty_print
-p tree.balanced?
-tree.rebalance
-tree.pretty_print
-p tree.balanced?
+puts tree.balanced?
+p tree.level_order
+p tree.inorder
+p tree.preorder
+p tree.postorder
